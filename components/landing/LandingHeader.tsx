@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function LandingHeader() {
   return (
@@ -9,8 +10,12 @@ export function LandingHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-blue-500">
-              <Calendar className="size-5 text-white" />
+            <div className="flex size-9 items-center justify-center rounded-lg">
+              <Image   src="/icon.png" 
+  alt="icon" 
+  width={25} 
+  height={25} 
+  className="text-white" />
             </div>
             <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
               Calvero
