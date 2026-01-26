@@ -35,12 +35,21 @@ export interface BookedBlock {
 // Combined event type for the calendar
 export type CalendarEvent = TimeBlock | BusyBlock | BookedBlock;
 
-// Type guard to check if event is a busy block
+/**
+ * Determine whether a CalendarEvent represents a BusyBlock.
+ *
+ * @returns `true` if `event` is a BusyBlock, `false` otherwise.
+ */
 export function isBusyBlock(event: CalendarEvent): event is BusyBlock {
   return "accountEmail" in event;
 }
 
-// Type guard to check if event is a booked block
+/**
+ * Determine whether a CalendarEvent represents a BookedBlock.
+ *
+ * @param event - The calendar event to test
+ * @returns `true` if the event is a BookedBlock (i.e., represents a booked meeting), `false` otherwise
+ */
 export function isBookedBlock(event: CalendarEvent): event is BookedBlock {
   return "guestName" in event;
 }

@@ -10,6 +10,12 @@ interface FeedbackListProps {
   showArchived: boolean
 }
 
+/**
+ * Render a scrollable list of feedback documents and an empty-state when no feedback exists.
+ *
+ * @param showArchived - If `true`, archived feedback items are shown alongside active items
+ * @returns The feedback list UI as a React element
+ */
 export function FeedbackList({ showArchived }: FeedbackListProps) {
   const { data: feedbackDocs } = useDocuments({
     documentType: "feedback",

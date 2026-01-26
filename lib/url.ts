@@ -1,6 +1,7 @@
 /**
- * Get the base URL for the application.
- * Uses Vercel's URL in production, otherwise falls back to localhost.
+ * Determine the application's base URL based on environment variables.
+ *
+ * @returns The base URL: `https://{VERCEL_URL}` if `VERCEL_URL` is set; otherwise the value of `NEXT_PUBLIC_APP_URL` if set; otherwise `http://localhost:3000`.
  */
 export function getBaseUrl(): string {
   // Vercel provides VERCEL_URL for preview/production deployments
@@ -18,9 +19,9 @@ export function getBaseUrl(): string {
 }
 
 /**
- * Generate a URL-safe slug from a string.
- * Converts to lowercase, replaces non-alphanumeric characters with hyphens,
- * and trims leading/trailing hyphens.
+ * Create a URL-safe slug from the given text.
+ *
+ * @returns The resulting slug: lowercased, with non-alphanumeric sequences replaced by single hyphens, leading and trailing hyphens removed, and truncated to 50 characters.
  */
 export function generateSlug(text: string): string {
   return text

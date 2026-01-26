@@ -28,6 +28,14 @@ interface BookingsListProps {
   bookings: BookingWithStatuses[];
 }
 
+/**
+ * Renders a list of upcoming host bookings with status badges, meeting and guest details, and per-booking cancellation.
+ *
+ * The component displays only bookings whose start time is in the future. Each booking item shows the date (with a highlighted "Today" marker when applicable), time range, guest name and email, optional notes, and meeting/link information. A status badge reflects the guest's response (`accepted`, `tentative`, or awaiting response). Each booking exposes a Cancel action that triggers an asynchronous cancellation and shows a loading indicator while the cancellation is in progress.
+ *
+ * @param bookings - Array of bookings to render; only bookings with start times in the future will be shown.
+ * @returns The rendered bookings list as a JSX element.
+ */
 export function BookingsList({ bookings }: BookingsListProps) {
   const [isPending, startTransition] = useTransition();
   const [cancellingId, setCancellingId] = useState<string | null>(null);

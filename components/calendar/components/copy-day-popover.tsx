@@ -23,6 +23,12 @@ interface CopyDayPopoverProps {
   onCopy: (dayIndex: number, includeWeekends: boolean) => void;
 }
 
+/**
+ * Render a popover UI that lets the user select a day and copy that day's events to the rest of the week.
+ *
+ * @param onCopy - Callback invoked when the user confirms the copy action. Receives `dayIndex` (0-6) for the selected day and `includeWeekends` indicating whether weekends should be included.
+ * @returns The popover React element containing the day selector, "include weekends" option, and copy action button.
+ */
 export function CopyDayPopover({ onCopy }: CopyDayPopoverProps) {
   const [open, setOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState("0");

@@ -55,6 +55,25 @@ const blocksAreEqual = (a: TimeBlock[], b: TimeBlock[]): boolean => {
   );
 };
 
+/**
+ * Manage a working set of calendar TimeBlock items with change tracking and utilities for editing, copying, and week-scoped operations.
+ *
+ * @param initialBlocks - Initial array of `TimeBlock` items representing the saved/external state to initialize the hook with
+ * @returns An object exposing the calendar state and mutation helpers:
+ * - `events`: current working `TimeBlock[]` (may include unsaved changes)
+ * - `hasChanges`: `true` if `events` differ from the last saved state, `false` otherwise
+ * - `addBlock(start, end)`: create and add a new block for the given time range
+ * - `updateBlock(id, start, end)`: update an existing block's times by `id`
+ * - `removeBlock(id)`: remove a block by `id`
+ * - `handleSelectSlot(slot)`: convenience handler to add a block from a selection slot
+ * - `handleEventDrop(interaction)`: convenience handler to update a block after a drag/drop
+ * - `handleEventResize(interaction)`: convenience handler to update a block after a resize
+ * - `copyDayToWeek(dayIndex, referenceDate, includeWeekends?)`: copy a day's blocks to other days of the same week
+ * - `clearWeek(referenceDate)`: remove blocks that fall inside the week of `referenceDate`
+ * - `discardChanges()`: revert `events` to the last saved set
+ * - `markAsSaved(newBlocks)`: set both the saved state and working `events` to `newBlocks`
+ * - `getEventsForSave()`: obtain the current `events` array for persisting
+ */
 export function useCalendarEvents(initialBlocks: TimeBlock[] = []) {
   // Current working state (includes unsaved changes)
   const [events, setEvents] = useState<TimeBlock[]>(initialBlocks);

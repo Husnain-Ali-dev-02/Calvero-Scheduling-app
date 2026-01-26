@@ -38,6 +38,19 @@ interface BookingCalendarProps {
 
 type BookingStep = "select-time" | "enter-details" | "confirmed";
 
+/**
+ * Render a multi-step booking calendar UI for selecting a date, choosing a time slot, entering guest details, and confirming a booking.
+ *
+ * @param hostSlug - Host identifier used when creating a booking
+ * @param hostName - Display name of the host
+ * @param meetingTypeSlug - Meeting type identifier used when creating a booking
+ * @param meetingTypeName - Display name of the meeting type
+ * @param duration - Meeting duration in minutes
+ * @param availableDates - Array of available date strings in `yyyy-MM-dd` format
+ * @param slotsByDate - Mapping from `yyyy-MM-dd` date strings to arrays of serialized slots ({ start: string; end: string })
+ * @param timezone - Visitor's timezone string (displayed in the UI; underscores are replaced with spaces)
+ * @returns The booking calendar UI element that manages selection, form entry, submission, and confirmation states
+ */
 export function BookingCalendar({
   hostSlug,
   hostName,

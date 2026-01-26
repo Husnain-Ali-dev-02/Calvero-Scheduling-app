@@ -15,6 +15,12 @@ const SanityAppProvider = dynamic(
   },
 );
 
+/**
+ * Wraps the provided React node(s) with the client-side SanityAppProvider.
+ *
+ * @param children - React node(s) to be rendered inside the provider
+ * @returns The `children` wrapped by `SanityAppProvider`
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   return <SanityAppProvider>{children}</SanityAppProvider>;
 }

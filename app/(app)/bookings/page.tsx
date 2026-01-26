@@ -6,6 +6,15 @@ import { processBookingsWithStatuses } from "@/lib/booking-utils";
 import { BookingsList } from "@/components/bookings/bookings-list";
 import { RefreshButton } from "@/components/ui/refresh-button";
 
+/**
+ * Render the bookings page for the authenticated clerk.
+ *
+ * Redirects unauthenticated users to "/" and fetches the clerk's bookings,
+ * processing them to display only active bookings.
+ *
+ * @returns A React element containing the bookings page layout with a header,
+ * a refresh button, and a BookingsList populated with active bookings.
+ */
 export default async function BookingsPage() {
   const { userId } = await auth();
 

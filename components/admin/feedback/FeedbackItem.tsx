@@ -19,6 +19,12 @@ interface FeedbackItemProps extends DocumentHandle {
   showArchived: boolean
 }
 
+/**
+ * Derives a short initials string from a user's name.
+ *
+ * @param name - The user's full name, or `null` if unavailable
+ * @returns `"?"` if `name` is null or empty; if `name` contains two or more space-separated parts, the uppercase first letters of the first two parts; otherwise the first two characters of `name` in uppercase
+ */
 function getInitials(name: string | null): string {
   if (!name) return "?"
   const parts = name.split(" ")
@@ -28,6 +34,19 @@ function getInitials(name: string | null): string {
   return name.slice(0, 2).toUpperCase()
 }
 
+/**
+ * Render a feedback item fetched from Sanity with UI to view and toggle its archived state.
+ *
+ * Displays the feedback content, author name and email, and a generated avatar. The component
+ * conditionally renders nothing if the projected display data is not available or if the item's
+ * archived state does not match `showArchived`. Provides a control to archive or restore the item,
+ * which updates the document's `archived` path.
+ *
+ * @param documentId - The Sanity document ID of the feedback item
+ * @param documentType - The Sanity document type of the feedback item
+ * @param showArchived - If `true`, the component renders only archived items; if `false`, only non-archived items
+ * @returns The feedback item JSX or `null` when not rendered due to missing data or filtering
+ */
 export function FeedbackItem({ documentId, documentType, showArchived }: FeedbackItemProps) {
   const { data: isArchived } = useDocument<boolean>({
     documentId,

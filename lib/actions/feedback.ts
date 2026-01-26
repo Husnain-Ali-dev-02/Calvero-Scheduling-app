@@ -4,6 +4,13 @@ import { auth } from "@clerk/nextjs/server";
 import { writeClient } from "@/sanity/lib/writeClient";
 import { getOrCreateUser } from "@/lib/actions/availability";
 
+/**
+ * Create a feedback document linked to the current authenticated user.
+ *
+ * @param content - The feedback message to store
+ * @returns An object with `success: true` when the feedback has been created
+ * @throws Error if the caller is not authenticated
+ */
 export async function submitFeedback(
   content: string
 ): Promise<{ success: boolean }> {

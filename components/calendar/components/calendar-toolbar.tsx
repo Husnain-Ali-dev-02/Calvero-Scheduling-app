@@ -15,6 +15,21 @@ interface CustomToolbarProps {
 type CalendarToolbarProps = ToolbarProps<TimeBlock, object> &
   CustomToolbarProps;
 
+/**
+ * Renders a calendar toolbar with view switching, current date label, optional copy/clear actions, and navigation controls.
+ *
+ * If the Clear Week action is used, the user is prompted for confirmation before `onClearWeek` is invoked.
+ *
+ * @param label - Text label for the currently displayed date range
+ * @param onNavigate - Callback invoked with "TODAY", "PREV", or "NEXT" to change the visible date range
+ * @param onView - Callback invoked with the selected view name when a view button is clicked
+ * @param view - The currently active view name
+ * @param views - Available view names used to render view-switcher buttons
+ * @param onCopyDayToWeek - Optional callback used by the Copy Day popover to copy a day into the week; called with the day index and a boolean to include weekends
+ * @param onClearWeek - Optional callback invoked to clear all events for the week (requires user confirmation)
+ * @param showCopyButton - When true, shows the copy/clear controls on the toolbar
+ * @returns A JSX element containing the toolbar UI
+ */
 export function CalendarToolbar({
   label,
   onNavigate,
