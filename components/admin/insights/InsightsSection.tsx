@@ -10,6 +10,14 @@ import { BookingTrendCard } from "@/components/admin/insights/BookingTrendCard"
 import { Card, CardContent } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
 
+/**
+ * Renders a card-shaped loading skeleton with a centered spinner.
+ *
+ * Additional CSS classes passed via `className` are applied to the root Card element.
+ *
+ * @param className - Extra CSS class names to append to the Card container
+ * @returns The skeleton Card element containing a centered Spinner
+ */
 function CardSkeleton({ className = "" }: { className?: string }) {
   return (
     <Card className={`min-h-[140px] bg-white/60 backdrop-blur-sm border-zinc-200/50 ${className}`}>
@@ -20,6 +28,15 @@ function CardSkeleton({ className = "" }: { className?: string }) {
   )
 }
 
+/**
+ * Composes the Insights section of the admin dashboard using multiple metric and trend cards with skeleton fallbacks.
+ *
+ * Renders a responsive grid containing a featured Booking Trend card, stat cards for new users and total bookings,
+ * a paired row with Most Booked Day and Total Meeting Types cards, and a Connected Accounts block; each card is wrapped
+ * in React.Suspense with a CardSkeleton fallback to display while the card loads.
+ *
+ * @returns A JSX fragment representing the assembled insights dashboard section.
+ */
 export function InsightsSection() {
   return (
     <>

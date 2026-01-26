@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useDocuments } from "@sanity/sdk-react";
@@ -16,8 +14,12 @@ interface DocumentCountCardProps {
 }
 
 /**
- * Generic card that displays the count of a specific Sanity document type.
- * Uses the Sanity SDK to fetch and count documents in real-time.
+ * Renders a card showing the real-time count of Sanity documents for a given document type.
+ *
+ * @param documentType - Sanity document type whose documents are counted
+ * @param title - Title displayed in the card header
+ * @param icon - Optional icon component rendered in the header
+ * @returns The card element displaying the current document count
  */
 export function DocumentCountCard({
   documentType,

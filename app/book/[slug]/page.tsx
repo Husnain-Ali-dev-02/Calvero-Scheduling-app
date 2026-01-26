@@ -20,6 +20,18 @@ interface BookingPageProps {
   params: Promise<{ slug: string }>;
 }
 
+/**
+ * Render the booking selection page for a host identified by its slug.
+ *
+ * Fetches host and meeting-type data for the provided route params, then:
+ * - triggers a 404 if the host is not found,
+ * - redirects to a single or default meeting type when applicable,
+ * - renders a message if no meeting types exist,
+ * - otherwise renders a selectable list of meeting-type cards.
+ *
+ * @param params - Promise resolving to route params object containing `slug`
+ * @returns The host booking page UI, or performs a redirect/404 depending on fetched data
+ */
 export default async function BookingPage({ params }: BookingPageProps) {
   const { slug } = await params;
 

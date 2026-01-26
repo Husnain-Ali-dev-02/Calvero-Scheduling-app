@@ -51,6 +51,17 @@ const DURATION_OPTIONS: Array<{ value: MeetingDuration; label: string }> = [
   { value: 90, label: "90 minutes" },
 ];
 
+/**
+ * Render a modal dialog that lets a host select or create meeting types and obtain a shareable booking link.
+ *
+ * The dialog loads meeting types, booking quota, and calendar connection status when opened. If a connected
+ * calendar account exists it auto-selects a default (or first) meeting type and fetches its booking URL.
+ * If no meeting types exist the component shows a form to create a new meeting type (name and duration),
+ * then generates and displays the booking URL. The UI also displays booking quota information when available,
+ * provides a copy-to-clipboard action with temporary feedback, and an action to open the booking page in a new tab.
+ *
+ * @returns A React element containing the Share Link dialog UI.
+ */
 export function ShareLinkDialog() {
   const [open, setOpen] = useState(false);
   const [meetingTypes, setMeetingTypes] = useState<MeetingTypeForHost[]>([]);

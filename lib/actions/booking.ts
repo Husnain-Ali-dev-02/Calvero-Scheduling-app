@@ -47,7 +47,14 @@ export type BookingData = {
 // ============================================================================
 
 /**
- * Get available time slots for a host on a specific date
+ * Compute the host's available time slots for a given date.
+ *
+ * Considers the host's declared availability, excludes slots that conflict with existing confirmed bookings, and respects busy times from connected Google Calendars.
+ *
+ * @param hostSlug - The host's slug identifier
+ * @param date - The target date for which to compute availability
+ * @param slotDurationMinutes - Length of each returned slot in minutes (defaults to 30)
+ * @returns An array of TimeSlot objects representing available start/end pairs on the specified date
  */
 export async function getAvailableSlots(
   hostSlug: string,
@@ -174,9 +181,13 @@ export async function getAvailableSlots(
 }
 
 /**
- * Get dates with available slots within a date range (for calendar highlighting)
- * Used for client-side month navigation when user navigates beyond initial data.
- * Returns an array of date strings (YYYY-MM-DD) that have at least one available slot.
+ * Compute which dates in a range have at least one available booking slot.
+ *
+ * @param hostSlug - The host's public slug used to locate their availability and connected accounts
+ * @param startDate - Inclusive start of the date range to check
+ * @param endDate - Inclusive end of the date range to check
+ * @param slotDurationMinutes - Length of each candidate slot in minutes (defaults to 30)
+ * @returns An array of date strings in `YYYY-MM-DD` format for days that contain at least one available slot
  */
 export async function getAvailableDates(
   hostSlug: string,
@@ -224,7 +235,15 @@ export async function getAvailableDates(
 }
 
 /**
- * Create a booking
+ * Create a booking for a host and persist it to the database, optionally creating a Google Calendar event.
+ *
+ * Attempts to create a Google Calendar event for the host's default connected account when available; if calendar creation fails, the booking will still be created without calendar identifiers.
+ *
+ * @param data - Booking payload containing host slug, guest info, start/end times, optional meeting type slug, and optional notes
+ * @returns The created booking's identifier object with the `_id` property
+ * @throws Error when the host cannot be found
+ * @throws Error when the host has exceeded their monthly booking quota
+ * @throws Error when the requested time slot is no longer available
  */
 export async function createBooking(
   data: BookingData
@@ -350,7 +369,12 @@ export async function createBooking(
 // ============================================================================
 
 /**
- * Get Google Calendar busy times from connected accounts
+ * Retrieve busy time ranges from connected Google Calendar accounts for a date range.
+ *
+ * @param connectedAccounts - The host's connected Google accounts to query (may be empty or undefined).
+ * @param startDate - The start of the date range to query.
+ * @param endDate - The end of the date range to query.
+ * @returns An array of time ranges, each with `start` and `end` Date objects representing busy intervals.
  */
 export async function getGoogleBusyTimes(
   connectedAccounts: HostWithTokens["connectedAccounts"],
@@ -370,7 +394,14 @@ export async function getGoogleBusyTimes(
 }
 
 /**
- * Check if a time slot is available
+ * Determine whether a host's time window is free of blocking bookings.
+ *
+ * Considers existing bookings and—when a default Google account with tokens is available—guest attendee status; bookings where the guest has `declined` do not block the slot.
+ *
+ * @param host - Host record (including connected accounts) used to check calendar attendee statuses
+ * @param startTime - Start of the time window to check
+ * @param endTime - End of the time window to check
+ * @returns `true` if no non-declined existing booking overlaps the window, `false` otherwise
  */
 async function checkSlotAvailable(
   host: HostWithTokens,

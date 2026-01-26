@@ -5,6 +5,11 @@ import { InsightsSection } from "@/components/admin/insights/InsightsSection"
 import { FeedbackSection } from "@/components/admin/feedback/FeedbackSection"
 import { Spinner } from "@/components/ui/spinner"
 
+/**
+ * Renders a centered spinner used as a loading fallback.
+ *
+ * @returns A JSX element containing a centered Spinner used while content loads.
+ */
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center p-8">
@@ -13,6 +18,14 @@ function LoadingFallback() {
   )
 }
 
+/**
+ * Render the admin dashboard layout containing insights and feedback sections with Suspense fallbacks.
+ *
+ * The layout is a responsive grid that places an InsightsSection and a FeedbackSection,
+ * with the FeedbackSection spanning multiple columns/rows on larger breakpoints.
+ *
+ * @returns A React element representing the admin dashboard layout
+ */
 export default function AdminDashboard() {
   return (
     <div className="p-4 md:p-6 lg:p-8">

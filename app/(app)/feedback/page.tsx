@@ -2,6 +2,11 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { FeedbackForm } from "@/components/feedback/feedback-form";
 
+/**
+ * Renders the feedback page: redirects unauthenticated users to "/" and shows a centered FeedbackForm for authenticated users.
+ *
+ * @returns The page's JSX containing a centered FeedbackForm component.
+ */
 export default async function FeedbackPage() {
   const { userId } = await auth();
   if (!userId) {

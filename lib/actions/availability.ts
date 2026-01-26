@@ -20,7 +20,13 @@ import { PLAN_LIMITS, getUserPlan } from "@/lib/features";
 import type { TimeBlock } from "@/components/calendar/types";
 import type { BookingQuotaStatus } from "@/lib/features";
 
-// Get or create user document by Clerk ID
+/**
+ * Retrieve a user document by Clerk ID or create a new user record from the current Clerk profile when none exists.
+ *
+ * @param clerkId - Clerk identifier used to find or assign the user document
+ * @returns An object containing the Sanity document `_id` of the found or newly created user
+ * @throws Error if the current Clerk profile cannot be retrieved
+ */
 export async function getOrCreateUser(clerkId: string) {
   // First try to find existing user
   const existingUser = await client.fetch(USER_ID_BY_CLERK_ID_QUERY, {
@@ -53,8 +59,10 @@ export async function getOrCreateUser(clerkId: string) {
 }
 
 /**
- * Save all availability blocks (replaces entire availability)
- * Returns the new blocks with their real IDs from Sanity
+ * Replace the authenticated user's entire availability with the provided time blocks.
+ *
+ * @returns An array of saved availability blocks, each containing the assigned `id` and ISO `start` and `end` datetimes.
+ * @throws Error when the caller is not authenticated.
  */
 export async function saveAvailability(
   blocks: TimeBlock[]
@@ -86,7 +94,10 @@ export async function saveAvailability(
 }
 
 /**
- * Get or create the user's booking link
+ * Ensures the authenticated user has a booking slug and returns the booking slug and full booking URL.
+ *
+ * @returns The user's booking `slug` and the corresponding booking `url`.
+ * @throws Error when the request is not authenticated.
  */
 export async function getOrCreateBookingLink(): Promise<{
   slug: string;
@@ -142,7 +153,10 @@ export async function getOrCreateBookingLink(): Promise<{
 }
 
 /**
- * Get all meeting types for the current user
+ * Retrieve all meeting types belonging to the currently authenticated user.
+ *
+ * @returns An array of `MeetingTypeForHost` objects for the authenticated host.
+ * @throws Error - if there is no authenticated user ("Unauthorized").
  */
 export async function getMeetingTypes(): Promise<MeetingTypeForHost[]> {
   const { userId } = await auth();
@@ -159,7 +173,18 @@ export async function getMeetingTypes(): Promise<MeetingTypeForHost[]> {
 type MeetingDuration = 15 | 30 | 45 | 60 | 90;
 
 /**
- * Create a new meeting type for the current user
+ * Create a new meeting type for the authenticated user and return its public representation.
+ *
+ * Creates the host user document if one does not exist, generates a slug from `data.name`,
+ * and persists a meetingType document referencing the host.
+ *
+ * @param data - Meeting type attributes
+ * @param data.name - Human-readable name of the meeting type
+ * @param data.duration - Duration in minutes (allowed values: 15, 30, 45, 60, 90)
+ * @param data.description - Optional description; returned as `null` when not provided
+ * @param data.isDefault - Optional flag; defaults to `true` when omitted
+ * @returns The created meeting type containing `_id`, `name`, `slug`, `duration`, `description` (or `null`), and `isDefault`
+ * @throws Error - Throws `"Unauthorized"` when there is no authenticated user
  */
 export async function createMeetingType(data: {
   name: string;
@@ -223,7 +248,10 @@ export async function createMeetingType(data: {
 }
 
 /**
- * Get or create the user's booking link with meeting type
+ * Build a booking URL for the authenticated user for a specific meeting type.
+ *
+ * @param meetingTypeSlug - URL-friendly slug of the meeting type
+ * @returns An object with `url` set to the booking page for the current user's slug and the given meeting type
  */
 export async function getBookingLinkWithMeetingType(
   meetingTypeSlug: string
@@ -248,7 +276,16 @@ const COUNT_USER_BOOKINGS_QUERY = defineQuery(`count(*[
 ])`);
 
 /**
- * Get the current user's booking quota status
+ * Compute the current user's booking quota status for the current month.
+ *
+ * If no user is authenticated, returns a quota representing the free plan with `used: 0`, `limit: 0`, `remaining: 0`, and `isExceeded: true`.
+ *
+ * @returns An object describing booking usage and limits:
+ * - `used`: number of bookings the user has in the current month
+ * - `limit`: maximum allowed bookings for the month (may be `Infinity`)
+ * - `remaining`: bookings left for the month (`Infinity` when `limit` is `Infinity`)
+ * - `isExceeded`: `true` if the limit is finite and `used` is greater than or equal to `limit`, `false` otherwise
+ * - `plan`: the user's plan identifier
  */
 export async function getBookingQuota(): Promise<BookingQuotaStatus> {
   const { userId } = await auth();
@@ -290,7 +327,9 @@ const HAS_CONNECTED_ACCOUNT_QUERY = defineQuery(`count(*[
 ]) > 0`);
 
 /**
- * Check if the current user has at least one connected Google account
+ * Determine whether the authenticated user has at least one connected Google account.
+ *
+ * @returns `true` if the user has at least one connected Google account, `false` otherwise (returns `false` when there is no authenticated user).
  */
 export async function hasConnectedAccount(): Promise<boolean> {
   const { userId } = await auth();

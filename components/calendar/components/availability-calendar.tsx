@@ -62,6 +62,16 @@ interface AvailabilityCalendarProps {
   bookedBlocks?: BookedBlock[];
 }
 
+/**
+ * Renders an interactive availability calendar that combines editable availability blocks with read-only busy and booked meetings.
+ *
+ * Provides month/week/day views, drag-and-drop and resize for availability blocks (except in month view), a booking details dialog for booked meetings, visual disabling of past times/days, and a save/discard workflow for unsaved availability changes.
+ *
+ * @param initialBlocks - Initial availability time blocks to display and edit
+ * @param busyBlocks - Read-only busy blocks (e.g., calendar conflicts) merged into the view
+ * @param bookedBlocks - Read-only booked meetings; selecting one opens the meeting details dialog
+ * @returns The AvailabilityCalendar React element
+ */
 export function AvailabilityCalendar({
   initialBlocks = [],
   busyBlocks = [],

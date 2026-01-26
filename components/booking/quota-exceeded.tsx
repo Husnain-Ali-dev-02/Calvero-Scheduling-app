@@ -4,6 +4,12 @@ interface QuotaExceededProps {
   hostName: string;
 }
 
+/**
+ * Render a full-page message indicating a host has reached their monthly booking limit.
+ *
+ * @param hostName - The host's display name shown in the message
+ * @returns A React element containing the styled quota-exceeded UI that includes the provided `hostName`
+ */
 export function QuotaExceeded({ hostName }: QuotaExceededProps) {
   return (
     <main className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">

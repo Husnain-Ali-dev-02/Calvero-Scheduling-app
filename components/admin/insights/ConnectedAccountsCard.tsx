@@ -17,6 +17,13 @@ interface AccountCountReporterProps extends DocumentHandle {
   onCount: (documentId: string, count: number) => void;
 }
 
+/**
+ * Fetches the count of connected accounts for a document and reports it via `onCount`.
+ *
+ * @param documentId - ID of the document to query
+ * @param documentType - Type of the document to query
+ * @param onCount - Callback invoked with `(documentId, count)` when a non-null count is available
+ */
 function AccountCountReporter({
   documentId,
   documentType,
@@ -40,6 +47,13 @@ function AccountCountReporter({
   return null;
 }
 
+/**
+ * Render a dashboard card that displays the total number of Google Calendars linked across all user documents.
+ *
+ * The component queries user documents, aggregates per-user connected-account counts reported by nested reporters, and displays the sum inside a styled card.
+ *
+ * @returns A React element containing the connected accounts card with the aggregated total
+ */
 export function ConnectedAccountsCard() {
   const { data: users } = useDocuments({
     documentType: "user",

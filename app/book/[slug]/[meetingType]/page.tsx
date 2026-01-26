@@ -20,6 +20,12 @@ interface BookingPageProps {
   params: Promise<{ slug: string; meetingType: string }>;
 }
 
+/**
+ * Render the booking page for a host's specific meeting type, including timezone-aware available slots and calendar.
+ *
+ * @param params - A promise resolving to route parameters: an object with `slug` (host slug) and `meetingType` (meeting type slug).
+ * @returns The React element for the meeting-type booking interface, precomputed with availability, slots grouped by the visitor's timezone, and quota/busy-time handling.
+ */
 export default async function MeetingTypeBookingPage({
   params,
 }: BookingPageProps) {

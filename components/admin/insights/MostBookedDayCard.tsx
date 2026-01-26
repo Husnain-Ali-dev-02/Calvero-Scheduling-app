@@ -29,6 +29,15 @@ interface BookingDayReporterProps extends DocumentHandle {
   onDay: (documentId: string, day: number) => void;
 }
 
+/**
+ * Fetches a document's `startTime` projection and reports its weekday index to the parent.
+ *
+ * When the projection contains a `startTime`, invokes `onDay(documentId, day)` where `day` is the weekday index (0 = Sunday, 6 = Saturday). The component does not render any UI.
+ *
+ * @param documentId - The id of the document to project
+ * @param documentType - The document type to project
+ * @param onDay - Callback invoked with the document id and weekday index when `startTime` is available
+ */
 function BookingDayReporter({
   documentId,
   documentType,
@@ -50,6 +59,15 @@ function BookingDayReporter({
   return null;
 }
 
+/**
+ * Display a dashboard card that identifies and visualizes the weekday with the most bookings.
+ *
+ * The component derives per-weekday booking counts from available booking documents and renders
+ * the most popular weekday name along with a compact bar chart and weekday initials. Visual
+ * highlights indicate the most booked day; falls back to "No data" when no booking dates are available.
+ *
+ * @returns A JSX element containing the "Most Booked Day" card with a highlighted weekday and a mini bar chart.
+ */
 export function MostBookedDayCard() {
   const { data: bookings } = useDocuments({
     documentType: "booking",

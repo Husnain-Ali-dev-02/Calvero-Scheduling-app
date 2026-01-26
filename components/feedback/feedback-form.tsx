@@ -13,6 +13,15 @@ import {
 } from "@/components/ui/card";
 import { submitFeedback } from "@/lib/actions/feedback";
 
+/**
+ * Render a feature feedback form that accepts text input and submits it.
+ *
+ * When submitted, calls `submitFeedback` with the entered content, clears the input,
+ * and shows a success confirmation card for 3 seconds. The submit button is disabled
+ * when the trimmed input is empty or while a submission is pending.
+ *
+ * @returns The component's UI: the feedback form or a temporary success confirmation card.
+ */
 export function FeedbackForm() {
   const [content, setContent] = useState("");
   const [submitted, setSubmitted] = useState(false);

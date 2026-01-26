@@ -17,6 +17,14 @@ interface BookingDateReporterProps extends DocumentHandle {
   onDate: (documentId: string, date: string) => void;
 }
 
+/**
+ * Reports a booking document's start time to a parent callback when it becomes available.
+ *
+ * Calls `onDate(documentId, startTime)` once the projected `startTime` is present.
+ *
+ * @param documentId - The ID of the booking document to project
+ * @param onDate - Callback invoked with the document ID and its `startTime` string when available
+ */
 function BookingDateReporter({
   documentId,
   documentType,
@@ -37,6 +45,12 @@ function BookingDateReporter({
   return null;
 }
 
+/**
+ * Compute the inclusive Monday-to-Sunday date range for a week a given number of weeks before the current week.
+ *
+ * @param weeksAgo - Number of weeks before the current week (0 for the current week, 1 for last week, etc.)
+ * @returns An object with `start` set to the week’s Monday at 00:00:00.000 and `end` set to the week’s Sunday at 23:59:59.999
+ */
 function getWeekRange(weeksAgo: number): { start: Date; end: Date } {
   const now = new Date();
   const dayOfWeek = now.getDay();
@@ -56,6 +70,13 @@ function getWeekRange(weeksAgo: number): { start: Date; end: Date } {
   return { start, end };
 }
 
+/**
+ * Display a themed card that shows the number of bookings in the current week and the delta versus last week.
+ *
+ * Fetches booking documents, collects their start dates, computes counts for this week and last week, and renders a summary with a trend icon and delta.
+ *
+ * @returns The rendered bookings trend card element showing this week's count, the difference from last week, and a visual trend indicator.
+ */
 export function BookingTrendCard() {
   const { data: bookings } = useDocuments({
     documentType: "booking",

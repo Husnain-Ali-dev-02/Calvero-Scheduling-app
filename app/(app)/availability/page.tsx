@@ -15,6 +15,16 @@ import type {
   BookedBlock,
 } from "@/components/calendar/types";
 
+/**
+ * Render the availability editing page for the authenticated user.
+ *
+ * Fetches the user's availability, upcoming bookings, and external (Google) busy times,
+ * transforms those into calendar blocks, and returns the interactive availability UI
+ * with controls for refreshing and sharing.
+ *
+ * @returns A React element containing the availability calendar populated with
+ * initial availability blocks, external busy blocks, and booked blocks.
+ */
 export default async function AvailabilityPage() {
   const { userId } = await auth();
 

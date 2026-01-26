@@ -37,11 +37,12 @@ export type ProcessedBooking<T extends BookingWithGoogleEvent> = T & {
 // ============================================================================
 
 /**
- * Fetch attendee statuses and filter out cancelled bookings.
- * This is the common logic used by both availability and bookings pages.
+ * Retrieve attendee statuses and return bookings augmented with `guestStatus`, excluding bookings whose Google events are cancelled.
  *
- * @param bookings - Raw bookings from Sanity
- * @returns Tuple of [attendeeStatuses record, filtered active bookings with statuses]
+ * @param bookings - Array of bookings containing at least `_id`, optional `googleEventId`, and optional `guestEmail`
+ * @returns An object with:
+ *  - `statuses`: a mapping from booking `_id` to `BookingStatuses`
+ *  - `activeBookings`: the input bookings filtered to exclude cancelled Google-event bookings and augmented with an optional `guestStatus`
  */
 export async function processBookingsWithStatuses<
   T extends BookingWithGoogleEvent

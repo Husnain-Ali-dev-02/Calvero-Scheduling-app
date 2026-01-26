@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ExternalLinkIcon, LogOutIcon, LayoutDashboardIcon } from "lucide-react";
 import { useLogOut } from "@sanity/sdk-react";
 
+/**
+ * Render the admin dashboard header with branding and action controls.
+ *
+ * @returns The header element as a `JSX.Element` containing branding on the left and action controls (a Sanity Studio link and a logout button) on the right.
+ */
 export function AdminHeader() {
   const logout = useLogOut();
 

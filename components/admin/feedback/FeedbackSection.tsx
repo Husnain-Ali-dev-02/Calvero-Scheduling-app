@@ -7,6 +7,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Spinner } from "@/components/ui/spinner"
 import { MessageSquareTextIcon, InboxIcon, ArchiveIcon } from "lucide-react"
 
+/**
+ * Render a centered spinner used as a loading fallback for feedback lists.
+ *
+ * @returns A JSX element containing a centered Spinner component.
+ */
 function ListFallback() {
   return (
     <div className="flex items-center justify-center py-12">
@@ -15,6 +20,13 @@ function ListFallback() {
   )
 }
 
+/**
+ * Renders a "Feedback" card with tabs for viewing new and archived feedback items.
+ *
+ * The component displays a header and a two-tab interface; each tab loads a FeedbackList inside a Suspense boundary and shows a spinner fallback while content is loading.
+ *
+ * @returns The rendered FeedbackSection JSX element.
+ */
 export function FeedbackSection() {
   const [activeTab, setActiveTab] = useState<string>("new")
 
